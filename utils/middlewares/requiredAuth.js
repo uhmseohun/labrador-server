@@ -13,7 +13,7 @@ export default (req, res, next) => {
     return next(models.Error(403, messages.failAuth))
   }
 
-  const token = req.headers.authorization.slice(7)
+  const token = req.headers.authorization
   try {
     jwt.verify(token, req.app.get('secretKey'))
   } catch (error) {
