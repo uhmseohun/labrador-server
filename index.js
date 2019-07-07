@@ -12,7 +12,7 @@ import middlewares from './utils/middlewares'
 
 const app = express()
 
-dotenv.config({ path: 'server.env' })
+dotenv.config({ path: 'env/server.env' })
 
 app.set('secretKey', process.env.JSONSECRETKEY)
 
