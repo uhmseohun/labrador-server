@@ -14,14 +14,7 @@ const deviceSchema = new Schema({
     ref: 'user'
   }],
   desc: [String],
-  methods: [{
-    name: String,
-    type: String,
-    control: {
-      method: String,
-      url: String
-    }
-  }]
+  methods: [Object]
 })
 
 export default mongoose.model('device', deviceSchema)
