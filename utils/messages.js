@@ -1,7 +1,8 @@
 export default {
   'apiNotExist': '존재하지 않는 엔드포인트입니다.',
   'userNotExist': '존해하지 않는 사용자입니다.',
-  'deviceNotExist': '존재하지 않는 래브라도입니다.',
+  'labradorNotExist': '존재하지 않는 래브라도입니다.',
+  'deviceNotExist': '존재하지 않는 기기입니다.',
   'placeNotExist': '존재하지 않는 장소입니다.',
   'checkPayload': '입력하신 페이로드를 확인해주세요.',
   'checkAccount': '아이디 또는 비밀번호를 확인해주세요.',
