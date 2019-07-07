@@ -13,6 +13,10 @@ const placeSchema = new Schema({
   geocode: {
     lat: Number,
     lng: Number
+  },
+  registrar: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'user'
   }
 })
 

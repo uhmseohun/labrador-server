@@ -9,7 +9,10 @@ const deviceSchema = new Schema({
     type: String,
     required: true
   },
-  owners: [String],
+  owners: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'user'
+  }],
   desc: [String],
   methods: [{
     name: String,
