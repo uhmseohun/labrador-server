@@ -14,7 +14,7 @@ const app = express()
 
 dotenv.config({ path: 'env/server.env' })
 
-app.set('secretKey', process.env.JSONSECRETKEY)
+app.set('secretKey', process.env.JWTSECRETKEY)
 
 app.use(cors())
 app.use(bodyParser.urlencoded({ extended: true }))
