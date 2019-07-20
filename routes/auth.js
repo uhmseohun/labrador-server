@@ -3,6 +3,7 @@ import { Router } from 'express'
 import verify from '../utils/verify'
 import models from '../models'
 import messages from '../utils/messages'
+import requiredKeys from '../utils/requiredKeys'
 
 import crypto from 'crypto'
 import jwt from 'jsonwebtoken'
@@ -13,7 +14,7 @@ const router = Router()
  * @summary 아이디와 패스워드를 받아 토큰을 발급해 반환합니다.
  */
 router.post('/', (req, res, next) => {
-  if (!verify.keys(req, res, ['id', 'password'])) {
+  if (!verify.keys(req, res, requiredKeys.authorizeUser)) {
     return next(models.Error(400, messages.checkPayload))
   }
   let hashedPw = crypto.createHash('sha256')
@@ -59,7 +60,7 @@ router.post('/refresh', (req, res, next) => {
  * @summary 사용자 정보를 받아 새로운 사용자를 생성합니다.
  */
 router.post('/join', (req, res, next) => {
-  if (!verify.keys(req, res, ['id', 'password', 'name'])) {
+  if (!verify.keys(req, res, requiredKeys.createUser)) {
     return next(models.Error(400, messages.checkPayload))
   }
   models.User.findOne({ id: req.body.id })
