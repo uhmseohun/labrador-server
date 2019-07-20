@@ -15,9 +15,7 @@ router.get('/', (req, res, next) => {
     .then(places => {
       res.json(places)
     })
-    .catch(error => {
-      res.json(models.Error(500, messages.dbError))
-    })
+    .catch(error => next(error))
 })
 
 /**
@@ -32,10 +30,11 @@ router.post('/', (req, res, next) => {
   newPlace = Object.assign(newPlace, req.body)
   newPlace.registrar = [req.user._id]
 
-  newPlace.save(error => {
-    if (error) next(error)
-    res.json({ message: messages.success })
-  })
+  newPlace.save()
+    .then(() => {
+      res.json({ message: messages.success })
+    })
+    .catch(error => next(error))
 })
 
 /**
@@ -53,9 +52,7 @@ router.delete('/:placeId', (req, res, next) => {
       place.remove()
       res.json({ message: messages.success })
     })
-    .catch(error => {
-      return next(models.Error(500, messages.dbError))
-    })
+    .catch(error => next(error))
 })
 
 /**
@@ -77,10 +74,7 @@ router.put('/:placeId', (req, res, next) => {
       place.save()
       res.json({ message: messages.success })
     })
-    .catch(error => {
-      console.error(error)
-      next(models.Error(500, messages.dbError))
-    })
+    .catch(error => next(error))
 })
 
 export default router

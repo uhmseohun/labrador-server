@@ -8,7 +8,6 @@ export default {
   'checkAccount': '아이디 또는 비밀번호를 확인해주세요.',
   'failAuth': '인증 헤더에 문제가 있습니다.',
   'noPermission': '해당 작업을 수행하기 위한 권한이 없습니다.',
-  'dbError': '데이터베이스에 문제가 생겼습니다.',
   'underDev': '구현되지 않은 엔드포인트입니다.',
   'success': '요청한 작업을 성공적으로 처리했습니다.',
   'duplicatedId': '해당 아이디가 이미 존재합니다.',

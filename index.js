@@ -33,14 +33,8 @@ app.use((req, res, next) => {
 })
 
 app.use((error, req, res, next) => {
-  if (!error.code) {
-    console.error(error)
-    return res.status(500).json({
-      message: messages.unknownError
-    })
-  }
-  res.status(error.code).json({
-    message: error.message
+  res.status(error.code || 500).json({
+    message: error.message || messages.unknownError
   })
 })
 

@@ -16,9 +16,7 @@ router.get('/', (req, res, next) => {
       devices = devices.filter(v => v.owners.includes(req.user._id))
       res.json(devices)
     })
-    .catch(error => {
-      next(models.Error(500, messages.dbError))
-    })
+    .catch(error => next(error))
 })
 
 /**
@@ -30,12 +28,11 @@ router.post('/', (req, res, next) => {
   }
   let newDevice = models.Device()
   newDevice = Object.assign(newDevice, req.body)
-  newDevice.save(error => {
-    if (error) next(models.Error(500, messages.dbError))
-    res.json({
-      message: messages.success
+  newDevice.save()
+    .then(() => {
+      res.json({ message: messages.success })
     })
-  })
+    .catch(error => next(error))
 })
 
 /**
@@ -53,7 +50,7 @@ router.delete('/:deviceId', (req, res, next) => {
       })
     })
     .catch(error => {
-      next(models.Error(500, messages.dbError))
+      next(error)
     })
 })
 

@@ -44,9 +44,7 @@ router.post('/', (req, res, next) => {
         refreshToken
       })
     })
-    .catch(error => {
-      next(models.Error(500, messages.dbError))
-    })
+    .catch(error => next(error))
 })
 
 /**
@@ -78,9 +76,7 @@ router.post('/join', (req, res, next) => {
         res.json({ message: messages.success })
       })
     })
-    .catch(error => {
-      return next(models.Error(500, messages.dbError))
-    })
+    .catch(error => next(error))
 })
 
 export default router

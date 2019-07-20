@@ -13,9 +13,7 @@ export default async (req, res, next) => {
       if (!user) next(models.Error(500, messages.unknownError))
       req.user = user
     })
-    .catch(error => {
-      next(models.Error(500, messages.dbError))
-    })
+    .catch(error => next(error))
 
   next()
 }
