@@ -14,10 +14,10 @@ const placeSchema = new Schema({
     lat: Number,
     lng: Number
   },
-  registrar: {
+  registrar: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'user'
-  }
+  }]
 })
 
 export default mongoose.model('place', placeSchema)
