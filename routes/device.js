@@ -17,7 +17,7 @@ router.get('/', (req, res, next) => {
       res.json(devices)
     })
     .catch(error => {
-      next(models.Error(500, dbError))
+      next(models.Error(500, messages.dbError))
     })
 })
 
@@ -50,7 +50,7 @@ router.delete('/:deviceId', (req, res, next) => {
       }
       res.json({
         message: messages.success
-      }) 
+      })
     })
     .catch(error => {
       next(models.Error(500, messages.dbError))
