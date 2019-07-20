@@ -40,7 +40,7 @@ router.post('/', (req, res, next) => {
 
 /**
  * @summary 등록되어 있는 기기를 삭제합니다.
- * @permission 기기 소유자만 접근할 수 있습니다.
+ * 기기 소유자만 접근할 수 있습니다.
  */
 router.delete('/:deviceId', (req, res, next) => {
   models.Device.deleteOne({ _id: req.params.deviceId })
@@ -59,7 +59,7 @@ router.delete('/:deviceId', (req, res, next) => {
 
 /**
  * @summary 등록되어 있는 기기의 정보를 수정합니다.
- * @permission 기기 소유자만 접근할 수 있습니다.
+ * 기기 소유자만 접근할 수 있습니다.
  */
 router.put('/:deviceId', (req, res, next) => {
   next(models.Error(423, messages.underDev))
