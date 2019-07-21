@@ -1,7 +1,7 @@
 import { Router } from 'express'
 
 import models from '../models'
-import responses from '../utils/responses'
+import messages from '../utils/messages'
 import verify from '../utils/verify'
 import requiredKeys from '../utils/requiredKeys'
 
@@ -13,9 +13,7 @@ const router = Router()
 router.get('/', (req, res, next) => {
   models.Device.find({})
     .then(devices => {
-      devices = devices
-        .filter(v => v.owners.includes(req.user._id))
-
+      devices = devices.filter(v => v.owners.includes(req.user._id))
       res.json(devices)
     })
     .catch(error => next(error))
@@ -26,13 +24,14 @@ router.get('/', (req, res, next) => {
  */
 router.post('/', (req, res, next) => {
   if (!verify.keys(req, res, requiredKeys.createDevice)) {
-    next(responses.checkPayload)
+    next(models.Error(400, messages.checkPayload))
   }
   let newDevice = models.Device()
   newDevice = Object.assign(newDevice, req.body)
-  newDevice.owners = [req.user]
   newDevice.save()
-    .then(() => next(responses.success))
+    .then(() => {
+      res.json({ message: messages.success })
+    })
     .catch(error => next(error))
 })
 
@@ -41,17 +40,18 @@ router.post('/', (req, res, next) => {
  * 기기 소유자만 접근할 수 있습니다.
  */
 router.delete('/:deviceId', (req, res, next) => {
-  models.Device.findById(req.params.deviceId)
-    .then(device => {
-      if (!device) return next(responses.deviceNotExist)
-      if (!device.owners.includes(req.user._id)) {
-        return next(responses.noPermission)
+  models.Device.deleteOne({ _id: req.params.deviceId })
+    .then(result => {
+      if (!result.deletedCount) {
+        return next(models.Error(404, messages.deviceNotExist))
       }
-
-      device.remove()
-      next(responses.success)
+      res.json({
+        message: messages.success
+      })
     })
-    .catch(error => next(error))
+    .catch(error => {
+      next(error)
+    })
 })
 
 /**
@@ -59,7 +59,7 @@ router.delete('/:deviceId', (req, res, next) => {
  * 기기 소유자만 접근할 수 있습니다.
  */
 router.put('/:deviceId', (req, res, next) => {
-  next(responses.underDev)
+  next(models.Error(423, messages.underDev))
 })
 
 export default router

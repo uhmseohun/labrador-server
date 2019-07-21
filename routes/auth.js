@@ -2,7 +2,7 @@ import { Router } from 'express'
 
 import verify from '../utils/verify'
 import models from '../models'
-import responses from '../utils/responses'
+import messages from '../utils/messages'
 import requiredKeys from '../utils/requiredKeys'
 
 import crypto from 'crypto'
@@ -15,7 +15,7 @@ const router = Router()
  */
 router.post('/', (req, res, next) => {
   if (!verify.keys(req, res, requiredKeys.authorizeUser)) {
-    return next(responses.checkPayload)
+    return next(models.Error(400, messages.checkPayload))
   }
   let hashedPw = crypto.createHash('sha256')
   hashedPw.update(req.body.password)
@@ -23,7 +23,7 @@ router.post('/', (req, res, next) => {
 
   models.User.findOne({ id: req.body.id, password: hashedPw })
     .then(user => {
-      if (!user) return next(responses.checkAccount)
+      if (!user) return next(models.Error(404, messages.checkAccount))
 
       const accessToken = jwt.sign({
         id: user.id,
@@ -51,7 +51,7 @@ router.post('/', (req, res, next) => {
  * @summary 리프레시 토큰으로 액세스 토큰을 재발급합니다.
  */
 router.post('/refresh', (req, res, next) => {
-  next(responses.underDev)
+  next(models.Error(423, messages.underDev))
 })
 
 /**
@@ -59,11 +59,11 @@ router.post('/refresh', (req, res, next) => {
  */
 router.post('/join', (req, res, next) => {
   if (!verify.keys(req, res, requiredKeys.createUser)) {
-    return next(responses.checkPayload)
+    return next(models.Error(400, messages.checkPayload))
   }
   models.User.findOne({ id: req.body.id })
     .then(user => {
-      if (user) return next(responses.duplicatedId)
+      if (user) return next(models.Error(409, messages.duplicatedId))
       let newUser = new models.User()
       newUser.id = req.body.id
       newUser.name = req.body.name
@@ -72,8 +72,9 @@ router.post('/join', (req, res, next) => {
       hashedPw.update(req.body.password)
       hashedPw = hashedPw.digest('base64')
       newUser.password = hashedPw
-      newUser.save()
-        .then(() => next(responses.success))
+      newUser.save(() => {
+        res.json({ message: messages.success })
+      })
     })
     .catch(error => next(error))
 })
