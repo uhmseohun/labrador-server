@@ -11,8 +11,5 @@
     "parserOptions": {
         "ecmaVersion": 2018,
         "sourceType": "module"
-    },
-    "rules": {
-        "handle-callback-err": "off"
     }
 }
