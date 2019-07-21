@@ -1,7 +1,7 @@
 import { Router } from 'express'
 
 import models from '../models'
-import messages from '../utils/messages'
+import responses from '../utils/responses'
 import verify from '../utils/verify'
 import requiredKeys from '../utils/requiredKeys'
 
@@ -12,9 +12,7 @@ const router = Router()
  */
 router.get('/', (req, res, next) => {
   models.Place.find({})
-    .then(places => {
-      res.json(places)
-    })
+    .then(places => res.json(places))
     .catch(error => next(error))
 })
 
@@ -23,7 +21,7 @@ router.get('/', (req, res, next) => {
  */
 router.post('/', (req, res, next) => {
   if (!verify.keys(req, res, requiredKeys.createPlace)) {
-    return next(models.Error(400, messages.checkPayload))
+    return next(responses.checkPayload)
   }
 
   let newPlace = new models.Place()
@@ -31,9 +29,7 @@ router.post('/', (req, res, next) => {
   newPlace.registrar = [req.user._id]
 
   newPlace.save()
-    .then(() => {
-      res.json({ message: messages.success })
-    })
+    .then(() => next(responses.success))
     .catch(error => next(error))
 })
 
@@ -44,13 +40,13 @@ router.post('/', (req, res, next) => {
 router.delete('/:placeId', (req, res, next) => {
   models.Place.findById(req.params.placeId)
     .then(place => {
-      if (!place) return next(models.Error(404, messages.placeNotExist))
+      if (!place) return next(responses.placeNotExist)
       if (!place.registrar.includes(req.user._id)) {
-        return next(models.Error(403, messages.noPermission))
+        return next(responses.noPermission)
       }
 
       place.remove()
-      res.json({ message: messages.success })
+      next(responses.success)
     })
     .catch(error => next(error))
 })
@@ -62,9 +58,9 @@ router.delete('/:placeId', (req, res, next) => {
 router.put('/:placeId', (req, res, next) => {
   models.Place.findById(req.params.placeId)
     .then(place => {
-      if (!place) return next(models.Error(404, message.placeNotExist))
+      if (!place) return next(responses.placeNotExist)
       if (!place.registrar.includes(req.user._id)) {
-        return next(models.Error(403, messages.noPermission))
+        return next(responses.noPermission)
       }
 
       requiredKeys.editPlace.forEach(v => {
@@ -72,7 +68,7 @@ router.put('/:placeId', (req, res, next) => {
       })
 
       place.save()
-      res.json({ message: messages.success })
+      next(responses.success)
     })
     .catch(error => next(error))
 })
