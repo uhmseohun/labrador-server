@@ -6,7 +6,7 @@ import dotenv from 'dotenv'
 import mongoose from 'mongoose'
 
 import routes from './routes'
-import models from './models'
+import responses from './utils/responses'
 import messages from './utils/messages'
 import middlewares from './utils/middlewares'
 
@@ -27,14 +27,15 @@ app.use('/auth', routes.auth)
 app.use('/device', routes.device)
 app.use('/user', routes.user)
 app.use('/place', routes.place)
+app.use('/labrador', routes.labrador)
 
 app.use((req, res, next) => {
-  next(models.Error(404, messages.apiNotExist))
+  next(responses.apiNotExist)
 })
 
-app.use((error, req, res, next) => {
-  res.status(error.code || 500).json({
-    message: error.message || messages.unknownError
+app.use((response, req, res, next) => {
+  res.status(response.code || 500).json({
+    message: response.message || messages.unknownError
   })
 })
 

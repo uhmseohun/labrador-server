@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken'
 
 import models from '../../models'
-import messages from '../messages'
+import responses from '../responses'
 
 export default async (req, res, next) => {
   if (req.originalUrl === '/auth' || req.originalUrl === '/auth/join') return next()
@@ -10,8 +10,13 @@ export default async (req, res, next) => {
 
   await models.User.findOne({ id: user.id })
     .then(user => {
-      if (!user) next(models.Error(500, messages.unknownError))
-      req.user = user
+      if (!user) next(responses.unknownError)
+      req.user = {
+        _id: user._id,
+        id: user.id,
+        name: user.name,
+        permission: user.permission
+      }
     })
     .catch(error => next(error))
 
