@@ -1,5 +1,5 @@
 export default {
-  createDevice: ['type', 'name', 'owners', 'desc', 'methods'],
+  createDevice: ['type', 'name', 'desc', 'methods'],
   authorizeUser: ['id', 'password'],
   createUser: ['id', 'password', 'name'],
   createPlace: ['type', 'name', 'desc', 'geocode'],
