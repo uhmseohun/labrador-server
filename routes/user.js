@@ -1,14 +1,21 @@
 import { Router } from 'express'
 
+import models from '../models'
 import responses from '../utils/responses'
 
 const router = Router()
 
 /**
- * @summary 사용자 자신의 현재 상태를 반환합니다.
+ * @summary 사용자 자신의 현재 상태와 사용자의 정보를 반환합니다.
  */
 router.get('/', (req, res, next) => {
-  next(responses.underDev)
+  models.User.findById(req.user._id)
+    .then(user => {
+      res.json({
+        user
+      })
+    })
+    .catch(error => next(error))
 })
 
 /**
