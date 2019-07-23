@@ -11,5 +11,6 @@ export default {
   underDev: '구현되지 않은 엔드포인트입니다.',
   success: '요청한 작업을 성공적으로 처리했습니다.',
   duplicatedId: '해당 아이디가 이미 존재합니다.',
-  unknownError: '알 수 없는 에러가 발생했습니다.'
+  unknownError: '알 수 없는 에러가 발생했습니다.',
+  notiNotExist: '존재하지 않는 알림입니다.'
 }
