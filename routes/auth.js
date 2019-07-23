@@ -2,6 +2,7 @@ import { Router } from 'express'
 
 import verify from '../utils/verify'
 import models from '../models'
+import notifications from '../utils/notifications'
 import responses from '../utils/responses'
 import requiredKeys from '../utils/requiredKeys'
 
@@ -73,7 +74,13 @@ router.post('/join', (req, res, next) => {
       hashedPw = hashedPw.digest('base64')
       newUser.password = hashedPw
       newUser.save()
-        .then(() => next(responses.success))
+        .then(() => {
+          let newNoti = models.Notification()
+          newNoti = Object.assign(newNoti, notifications.joinSuccess)
+          newNoti.to = [newUser._id]
+          newNoti.save()
+            .then(() => next(responses.success))
+        })
     })
     .catch(error => next(error))
 })

@@ -28,6 +28,7 @@ app.use('/device', routes.device)
 app.use('/user', routes.user)
 app.use('/place', routes.place)
 app.use('/labrador', routes.labrador)
+app.use('/notification', routes.notification)
 
 app.use((req, res, next) => {
   next(responses.apiNotExist)

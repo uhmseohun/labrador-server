@@ -52,5 +52,9 @@ export default {
   unknownError: {
     code: 500,
     message: messages.unknownError
+  },
+  notiNotExist: {
+    code: 404,
+    message: messages.notiNotExist
   }
 }
