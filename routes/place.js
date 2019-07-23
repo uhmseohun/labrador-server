@@ -2,6 +2,8 @@ import { Router } from 'express'
 
 import models from '../models'
 import responses from '../utils/responses'
+import notifications from '../utils/notifications'
+
 import verify from '../utils/verify'
 import requiredKeys from '../utils/requiredKeys'
 
@@ -29,7 +31,13 @@ router.post('/', (req, res, next) => {
   newPlace.registrar = [req.user._id]
 
   newPlace.save()
-    .then(() => next(responses.success))
+    .then(() => {
+      let newNoti = new models.Notification()
+      newNoti = Object.assign(newNoti, notifications.newPlace)
+      newNoti.to = [req.user._id]
+      newNoti.save()
+        .then(() => res.json(responses.success))
+    })
     .catch(error => next(error))
 })
 

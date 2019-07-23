@@ -2,6 +2,7 @@ import { Router } from 'express'
 
 import models from '../models'
 import responses from '../utils/responses'
+import notifications from '../utils/notifications'
 import verify from '../utils/verify'
 import requiredKeys from '../utils/requiredKeys'
 
@@ -32,7 +33,13 @@ router.post('/', (req, res, next) => {
   newDevice = Object.assign(newDevice, req.body)
   newDevice.owners = [req.user]
   newDevice.save()
-    .then(() => next(responses.success))
+    .then(() => {
+      let newNoti = models.Notification()
+      newNoti = Object.assign(newNoti, notifications.newDevice)
+      newNoti.to = [req.user._id]
+      newNoti.save()
+        .then(() => next(responses.success))
+    })
     .catch(error => next(error))
 })
 
