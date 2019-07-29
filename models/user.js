@@ -16,7 +16,8 @@ const userSchema = new Schema({
   permission: {
     type: String,
     default: 'user'
-  }
+  },
+  photo: String
 })
 
 export default mongoose.model('user', userSchema)
