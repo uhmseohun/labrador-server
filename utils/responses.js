@@ -56,5 +56,13 @@ export default {
   notiNotExist: {
     code: 404,
     message: messages.notiNotExist
+  },
+  notAllowedExtension: {
+    code: 400,
+    message: messages.notAllowedExtension
+  },
+  targetNotFound: {
+    code: 404,
+    message: messages.targetNotFound
   }
 }
