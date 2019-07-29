@@ -12,5 +12,7 @@ export default {
   success: '요청한 작업을 성공적으로 처리했습니다.',
   duplicatedId: '해당 아이디가 이미 존재합니다.',
   unknownError: '알 수 없는 에러가 발생했습니다.',
-  notiNotExist: '존재하지 않는 알림입니다.'
+  notiNotExist: '존재하지 않는 알림입니다.',
+  notAllowedExtension: '허용되지 않은 확장자입니다.',
+  targetNotFound: '해당 대상을 찾을 수 없습니다.'
 }
