@@ -17,7 +17,8 @@ const placeSchema = new Schema({
   registrar: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'user'
-  }]
+  }],
+  photo: String
 })
 
 export default mongoose.model('place', placeSchema)
