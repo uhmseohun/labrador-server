@@ -29,6 +29,7 @@ app.use('/user', routes.user)
 app.use('/place', routes.place)
 app.use('/labrador', routes.labrador)
 app.use('/notification', routes.notification)
+app.use('/upload', routes.upload)
 
 app.use((req, res, next) => {
   next(responses.apiNotExist)
