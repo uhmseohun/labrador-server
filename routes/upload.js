@@ -29,8 +29,8 @@ router.post('/photo/:id', upload.single('photo'), async (req, res, next) => {
     }
 
     target.photo = req.file.filename
-    target.save()
-      .then(() => next(responses.success))
+    await target.save()
+    next(responses.success)
   } catch (error) {
     next(error)
   }
