@@ -4,6 +4,7 @@ import place from './place'
 import user from './user'
 import labrador from './labrador'
 import notification from './notification'
+import upload from './upload'
 
 export default {
   auth,
@@ -11,5 +12,6 @@ export default {
   place,
   user,
   labrador,
-  notification
+  notification,
+  upload
 }
